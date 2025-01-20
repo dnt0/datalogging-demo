@@ -1,9 +1,10 @@
 import sys
 from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, QThreadPool
 import pyqtgraph as pg
 import serial
 import time
+import workerThread
 
 uiclass, baseclass = pg.Qt.loadUiType("main.ui")
 
@@ -29,7 +30,15 @@ class MainWindow(uiclass, baseclass):
 
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
-        self.timer.timeout.connect(self.update_data)
+        #self.timer.timeout.connect(self.update_data)
+
+        self.threadpool = QThreadPool()
+
+        self.worker = workerThread.Worker(self.update_data)
+        self.threadpool.start(self.worker)
+        active_threads = self.threadpool.activeThreadCount()
+        thread_count = self.threadpool.maxThreadCount()
+        print(active_threads)
 
     def plot(self, hour, temperature):
         self.graphWidget.plot(hour, temperature)
@@ -46,8 +55,8 @@ class MainWindow(uiclass, baseclass):
     def stop(self):
         self.timer.stop()
         time.sleep(0.5)
-        self.ser.reset_input_buffer()
-        self.ser.close()
+        #self.ser.reset_input_buffer()
+        #self.ser.close()
 
     def update_data(self):
         if self.ser.in_waiting:
@@ -57,6 +66,13 @@ class MainWindow(uiclass, baseclass):
 
             if len(dataRow) == self.dataLength:
                 print(dataRow)
+
+
+    def closeEvent(self, event):
+        # Override the close event to stop the worker when exiting the app
+        if self.worker:
+            self.worker.stop()
+        event.accept()
 
 
 app = QApplication(sys.argv)
