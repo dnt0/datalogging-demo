@@ -13,20 +13,10 @@ class MainWindow(uiclass, baseclass):
         super().__init__()
         self.setupUi(self)
 
-        self.ser = serial.Serial()
-        self.ser.port = "/dev/ttyACM0"
-        self.ser.baudrate = 115200
-        self.ser.timeout = 5
-
-        self.dataLength = 6
-
         self.plot(
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], # Hours
             [30, 32, 34, 32, 33, 31, 29, 32, 35, 45], # Temperature
         )
-
-        self.pushButton.clicked.connect(self.start)
-        self.pushButton_2.clicked.connect(self.stop)
 
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
@@ -39,6 +29,10 @@ class MainWindow(uiclass, baseclass):
         active_threads = self.threadpool.activeThreadCount()
         thread_count = self.threadpool.maxThreadCount()
         print(active_threads)
+
+        self.pushButton.clicked.connect(self.worker.serial_start)
+        self.pushButton_2.clicked.connect(self.worker.serial_end)
+
 
     def plot(self, hour, temperature):
         self.graphWidget.plot(hour, temperature)
@@ -53,10 +47,8 @@ class MainWindow(uiclass, baseclass):
         self.timer.start()
 
     def stop(self):
-        self.timer.stop()
+        #self.timer.stop()
         time.sleep(0.5)
-        #self.ser.reset_input_buffer()
-        #self.ser.close()
 
     def update_data(self):
         if self.ser.in_waiting:
