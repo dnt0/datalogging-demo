@@ -41,7 +41,7 @@ class MainWindow(uiclass, baseclass):
 
         self.pushButton_4.clicked.connect(self.worker.serial_connect)
         self.pushButton_5.clicked.connect(self.worker.serial_disconnect)
-        self.pushButton.clicked.connect(self.worker.serial_start)
+        self.pushButton.clicked.connect(self.startSequence)
         self.pushButton_2.clicked.connect(self.worker.serial_end)
 
     def closeEvent(self, event):
@@ -49,6 +49,10 @@ class MainWindow(uiclass, baseclass):
         if self.worker:
             self.worker.stop()
         event.accept()
+
+    def startSequence(self):
+        self.clear_plot_data()
+        self.worker.serial_start()
 
     def plot_graph(self, workerResult):
         self.plotData["channel1"]["x"].append(workerResult[0])
@@ -59,6 +63,11 @@ class MainWindow(uiclass, baseclass):
 
         self.dataLine1.setData(list(self.plotData["channel1"]["x"]), list(self.plotData["channel1"]["y"]))
         self.dataLine2.setData(list(self.plotData["channel2"]["x"]), list(self.plotData["channel2"]["y"]))
+
+    def clear_plot_data(self):
+        for channel in self.plotData.values():
+            for dataQueue in channel.values():
+                dataQueue.clear()
 
 
 app = QApplication(sys.argv)
