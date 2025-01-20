@@ -200,10 +200,10 @@
          <widget class="QWidget" name="">
           <property name="geometry">
            <rect>
-            <x>22</x>
-            <y>182</y>
-            <width>251</width>
-            <height>101</height>
+            <x>23</x>
+            <y>183</y>
+            <width>163</width>
+            <height>100</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -286,6 +286,32 @@
          <attribute name="title">
           <string>Settings</string>
          </attribute>
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>20</y>
+            <width>88</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Connect</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_5">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>70</y>
+            <width>88</width>
+            <height>26</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Disconnect</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>

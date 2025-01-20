@@ -24,41 +24,16 @@ class MainWindow(uiclass, baseclass):
 
         self.threadpool = QThreadPool()
 
-        self.worker = workerThread.Worker(self.update_data)
+        self.worker = workerThread.Worker()
         self.threadpool.start(self.worker)
-        active_threads = self.threadpool.activeThreadCount()
-        thread_count = self.threadpool.maxThreadCount()
-        print(active_threads)
 
+        self.pushButton_4.clicked.connect(self.worker.serial_connect)
+        self.pushButton_5.clicked.connect(self.worker.serial_disconnect)
         self.pushButton.clicked.connect(self.worker.serial_start)
         self.pushButton_2.clicked.connect(self.worker.serial_end)
 
-
     def plot(self, hour, temperature):
         self.graphWidget.plot(hour, temperature)
-
-    def start(self):
-        if (self.ser.is_open != True):
-            self.ser.open()
-            self.ser.reset_input_buffer()
-
-        time.sleep(2)
-        self.ser.write(b'start\n')
-        self.timer.start()
-
-    def stop(self):
-        #self.timer.stop()
-        time.sleep(0.5)
-
-    def update_data(self):
-        if self.ser.in_waiting:
-            incomingData = self.ser.readline()
-            incomingData = incomingData.decode('utf-8')
-            dataRow = incomingData.removesuffix('\r\n').split(',')
-
-            if len(dataRow) == self.dataLength:
-                print(dataRow)
-
 
     def closeEvent(self, event):
         # Override the close event to stop the worker when exiting the app

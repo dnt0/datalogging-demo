@@ -30,7 +30,6 @@ class Worker(QRunnable):
         while(self.runFlag):
             if self.enableUpdatesFlag:
                 self.update_data()
-            #time.sleep(0.5)
 
     def stop(self):
         self.runFlag = False
@@ -44,13 +43,17 @@ class Worker(QRunnable):
             if len(dataRow) == self.dataLength:
                 print(dataRow)
 
-    def serial_start(self):
+    def serial_connect(self):
         if (self.ser.is_open != True):
             self.ser.open()
             self.ser.reset_input_buffer()
             self.enableUpdatesFlag = True
 
-        time.sleep(0.5)
+    def serial_disconnect(self):
+        self.enableUpdatesFlag = False
+        self.ser.close()
+
+    def serial_start(self):
         self.ser.write(b'start\n')
 
     def serial_end(self):
