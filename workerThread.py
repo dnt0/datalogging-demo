@@ -41,7 +41,9 @@ class Worker(QRunnable):
             dataRow = incomingData.removesuffix('\r\n').split(',')
 
             if len(dataRow) == self.dataLength:
-                print(dataRow)
+                #print(dataRow)
+                dataRow = [float(i) for i in dataRow]
+                self.signals.result.emit(dataRow)
 
     def serial_connect(self):
         if (self.ser.is_open != True):
