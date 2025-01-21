@@ -89,8 +89,10 @@ class MainWindow(uiclass, baseclass):
         self.fileEntry.clear()
 
     def update_texts(self, workerResult):
+        formattedRuntime = self.format_elapsed_time(workerResult[0])
+
         self.labelCycle.setText("%d" % workerResult[0])
-        self.labelRuntime.setText("%d" % workerResult[0])
+        self.labelRuntime.setText(formattedRuntime)
         self.labelPosition.setText("%.2f" % workerResult[1])
         self.labelTemperature1.setText("%.2f" % workerResult[2])
         self.labelTemperature2.setText("%.2f" % workerResult[3])
@@ -103,6 +105,20 @@ class MainWindow(uiclass, baseclass):
 
         self.labelHomePosition.setText("%.2f" % workerResult[5])
         self.labelFault.setText("%.2f" % workerResult[5])
+
+    def format_elapsed_time(self, milliseconds):
+        totalSeconds = milliseconds // 1000
+
+        days = totalSeconds // (24*3600)
+        totalSeconds %= 24 * 3600
+
+        hours = totalSeconds // 3600
+        totalSeconds %= 3600
+
+        minutes = totalSeconds // 60
+        seconds = totalSeconds % 60
+
+        return "%d day, %d hr, %d min, %d sec " % (days, hours, minutes, seconds)
 
 
 app = QApplication(sys.argv)
