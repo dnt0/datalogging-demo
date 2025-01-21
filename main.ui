@@ -239,11 +239,11 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="layoutWidget">
+         <widget class="QWidget" name="">
           <property name="geometry">
            <rect>
-            <x>30</x>
-            <y>200</y>
+            <x>31</x>
+            <y>201</y>
             <width>251</width>
             <height>92</height>
            </rect>
@@ -381,7 +381,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_15">
           <item>
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="comboBoxModeSelect">
             <item>
              <property name="text">
               <string>Idle</string>

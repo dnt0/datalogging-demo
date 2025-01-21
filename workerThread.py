@@ -59,11 +59,30 @@ class Worker(QRunnable):
         self.enableUpdatesFlag = False
         self.ser.close()
 
-    def serial_start(self):
-        self.ser.write(b'start\n')
+    def serial_start(self, modeSelect):
+        if modeSelect == "Idle":
+            self.ser.write(b'start\n')
+
+        elif modeSelect == "Calibrate":
+            self.ser.write(b'start_calibrate\n')
+
+        elif modeSelect == "Cycle":
+            self.ser.write(b'start_cycle\n')
+
+        elif modeSelect == "Timed":
+            self.ser.write(b'start_timed\n')
+
+        elif modeSelect == "Target":
+            self.ser.write(b'start_target\n')
+
+        elif modeSelect == "Training":
+            self.ser.write(b'start_train\n')
 
     def serial_end(self):
         self.ser.write(b'stop\n') 
+
+    def serial_clear_faults(self):
+        self.ser.write(b'clear_faults\n')
 
 
 class FileWorker(QRunnable):

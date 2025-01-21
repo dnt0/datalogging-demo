@@ -48,6 +48,7 @@ class MainWindow(uiclass, baseclass):
         self.pushButton_5.clicked.connect(self.worker.serial_disconnect)
         self.pushButton.clicked.connect(self.startSequence)
         self.pushButton_2.clicked.connect(self.worker.serial_end)
+        self.pushButton_3.clicked.connect(self.worker.serial_clear_faults)
 
         self.previousTime = datetime.fromtimestamp(0)
 
@@ -58,8 +59,9 @@ class MainWindow(uiclass, baseclass):
         event.accept()
 
     def startSequence(self):
+        modeSelect = self.comboBoxModeSelect.currentText()
         self.clear_plot_data()
-        self.worker.serial_start()
+        self.worker.serial_start(modeSelect)
 
     def plot_graph(self, workerResult):
         self.fileEntry.append(workerResult)
