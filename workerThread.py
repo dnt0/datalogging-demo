@@ -102,15 +102,20 @@ class FileWorker(QRunnable):
 
             if timeDiff > timedelta(minutes=1):
                 filename = datetime.now().replace(microsecond=0).isoformat().replace(':', '.')
+
+                fileDirectory = os.path.join(directory, '['+filename+'].csv')
+                dataFrame.to_csv(fileDirectory, mode='a', header=self.dataColumnNames, index=False)
             else:
                 filename = latestFile[1:-5]
+
+                fileDirectory = os.path.join(directory, '['+filename+'].csv')
+                dataFrame.to_csv(fileDirectory, mode='a', header=False, index=False)
 
         else:
             filename = datetime.now().replace(microsecond=0).isoformat().replace(':', '.')
         
-        fileDirectory = os.path.join(directory, '['+filename+'].csv')
-
-        dataFrame.to_csv(fileDirectory, mode='a', header=self.dataColumnNames, index=False)
+            fileDirectory = os.path.join(directory, '['+filename+'].csv')
+            dataFrame.to_csv(fileDirectory, mode='a', header=self.dataColumnNames, index=False)
 
         self.signals.finished.emit()
 
