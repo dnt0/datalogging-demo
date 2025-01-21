@@ -60,6 +60,7 @@ class MainWindow(uiclass, baseclass):
 
     def plot_graph(self, workerResult):
         self.fileEntry.append(workerResult)
+        self.update_texts(workerResult)
 
         self.plotData["channel1"]["x"].append(workerResult[0])
         self.plotData["channel1"]["y"].append(workerResult[1])
@@ -86,6 +87,22 @@ class MainWindow(uiclass, baseclass):
     
     def clear_file_entry(self):
         self.fileEntry.clear()
+
+    def update_texts(self, workerResult):
+        self.labelCycle.setText("%d" % workerResult[0])
+        self.labelRuntime.setText("%d" % workerResult[0])
+        self.labelPosition.setText("%.2f" % workerResult[1])
+        self.labelTemperature1.setText("%.2f" % workerResult[2])
+        self.labelTemperature2.setText("%.2f" % workerResult[3])
+        self.labelTemperature3.setText("%.2f" % workerResult[4])
+
+        self.labelOpenCommand.setText("%.2f" % workerResult[5])
+        self.labelCloseCommand.setText("%.2f" % workerResult[5])
+        self.labelDoorOpened.setText("%.2f" % workerResult[5])
+        self.labelDoorClosed.setText("%.2f" % workerResult[5])
+
+        self.labelHomePosition.setText("%.2f" % workerResult[5])
+        self.labelFault.setText("%.2f" % workerResult[5])
 
 
 app = QApplication(sys.argv)

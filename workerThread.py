@@ -120,6 +120,6 @@ class FileWorker(QRunnable):
         if not files:
             return None
         
-        # Get the file with the latest modification time
+        # Get the file with the latest creation time
         latest_file = max(files, key=lambda f: os.path.getctime(os.path.join(directory, f)))
         return latest_file
