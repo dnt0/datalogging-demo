@@ -7,6 +7,7 @@ import time
 import workerThread
 from collections import deque
 from random import randint
+from datetime import datetime, timedelta
 
 
 uiclass, baseclass = pg.Qt.loadUiType("main.ui")
@@ -48,6 +49,8 @@ class MainWindow(uiclass, baseclass):
         self.pushButton.clicked.connect(self.startSequence)
         self.pushButton_2.clicked.connect(self.worker.serial_end)
 
+        self.previousTime = datetime.fromtimestamp(0)
+
     def closeEvent(self, event):
         # Override the close event to stop the worker when exiting the app
         if self.worker:
@@ -60,7 +63,12 @@ class MainWindow(uiclass, baseclass):
 
     def plot_graph(self, workerResult):
         self.fileEntry.append(workerResult)
-        self.update_texts(workerResult)
+
+        currentTime = datetime.now()
+        timeInterval = currentTime - self.previousTime
+        if timeInterval > timedelta(milliseconds=500):                              # Update texts every 500ms
+            self.update_texts(workerResult)
+            self.previousTime = currentTime
 
         self.plotData["channel1"]["x"].append(workerResult[0])
         self.plotData["channel1"]["y"].append(workerResult[1])
