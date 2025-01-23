@@ -119,7 +119,7 @@ class FileWorker(QRunnable):
             latestFileTime = datetime.fromtimestamp(os.path.getctime(latestFileDirectory))
             timeDiff = datetime.now() - latestFileTime
 
-            if timeDiff > timedelta(minutes=1):
+            if timeDiff >= timedelta(days=1):
                 filename = datetime.now().replace(microsecond=0).isoformat().replace(':', '.')
 
                 fileDirectory = os.path.join(directory, '['+filename+'].csv')
