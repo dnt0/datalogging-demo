@@ -24,7 +24,7 @@ class Worker(QRunnable):
         self.enableUpdatesFlag = False
 
         self.ser = serial.Serial()
-        self.ser.port = "COM3"
+        self.ser.port = "COM4"
         self.ser.baudrate = 115200
         self.ser.timeout = 5
 
@@ -119,7 +119,7 @@ class FileWorker(QRunnable):
             latestFileTime = datetime.fromtimestamp(os.path.getctime(latestFileDirectory))
             timeDiff = datetime.now() - latestFileTime
 
-            if timeDiff >= timedelta(days=1):
+            if timeDiff.days >= 1:
                 filename = datetime.now().replace(microsecond=0).isoformat().replace(':', '.')
 
                 fileDirectory = os.path.join(directory, '['+filename+'].csv')
