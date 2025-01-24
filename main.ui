@@ -52,7 +52,7 @@
            <rect>
             <x>30</x>
             <y>320</y>
-            <width>251</width>
+            <width>301</width>
             <height>51</height>
            </rect>
           </property>
@@ -106,7 +106,7 @@
            <rect>
             <x>30</x>
             <y>30</y>
-            <width>251</width>
+            <width>301</width>
             <height>140</height>
            </rect>
           </property>
@@ -242,9 +242,9 @@
          <widget class="QWidget" name="">
           <property name="geometry">
            <rect>
-            <x>31</x>
-            <y>201</y>
-            <width>251</width>
+            <x>32</x>
+            <y>202</y>
+            <width>301</width>
             <height>92</height>
            </rect>
           </property>
@@ -446,13 +446,56 @@
      </layout>
     </item>
     <item>
-     <widget class="PlotWidget" name="graphWidget" native="true">
+     <widget class="QTabWidget" name="tabWidget_2">
       <property name="minimumSize">
        <size>
         <width>720</width>
-        <height>680</height>
+        <height>0</height>
        </size>
       </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Position</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="PlotWidget" name="graphWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Strain</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_17">
+        <item>
+         <widget class="PlotWidget" name="graphWidget_2" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>

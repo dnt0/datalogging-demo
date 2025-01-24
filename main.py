@@ -31,6 +31,18 @@ class MainWindow(uiclass, baseclass):
         self.dataLine1 = self.graphWidget.plot([], [], name="Sensor1", pen='b')
         self.dataLine2 = self.graphWidget.plot([], [], name="Sensor2", pen='r')
 
+        self.plotStrainData = {
+            "channel1": {"x": deque(maxlen=self.numberOfSamples), "y": deque(maxlen=self.numberOfSamples)}, 
+        }
+
+        self.graphWidget_2.setBackground('w')
+        self.graphWidget_2.setYRange(-105, 105)
+        self.graphWidget_2.addLegend()
+        
+
+        self.dataLine0 = self.graphWidget_2.plot([], [], name="Sensor1", pen='b')
+
+
         self.timer = QTimer(self)
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.save_data)
@@ -51,6 +63,9 @@ class MainWindow(uiclass, baseclass):
         self.pushButton_3.clicked.connect(self.worker.serial_clear_faults)
 
         self.previousTime = datetime.fromtimestamp(0)
+
+        self.tabWidget_2.currentChanged.connect(self.plot_tab_changed)
+        self.plotTabIndex = 0
 
     def closeEvent(self, event):
         # Override the close event to stop the worker when exiting the app
@@ -78,8 +93,9 @@ class MainWindow(uiclass, baseclass):
         self.plotData["channel2"]["x"].append(workerResult[0])
         self.plotData["channel2"]["y"].append(workerResult[2])
 
-        self.dataLine1.setData(list(self.plotData["channel1"]["x"]), list(self.plotData["channel1"]["y"]))
-        self.dataLine2.setData(list(self.plotData["channel2"]["x"]), list(self.plotData["channel2"]["y"]))
+        if self.plotTabIndex == 0:
+            self.dataLine1.setData(list(self.plotData["channel1"]["x"]), list(self.plotData["channel1"]["y"]))
+            self.dataLine2.setData(list(self.plotData["channel2"]["x"]), list(self.plotData["channel2"]["y"]))
 
     def clear_plot_data(self):
         for channel in self.plotData.values():
@@ -129,6 +145,9 @@ class MainWindow(uiclass, baseclass):
         seconds = totalSeconds % 60
 
         return "%d day, %d hr, %d min, %d sec " % (days, hours, minutes, seconds)
+    
+    def plot_tab_changed(self, index):
+        self.plotTabIndex = index
 
 
 app = QApplication(sys.argv)
